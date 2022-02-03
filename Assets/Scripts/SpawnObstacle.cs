@@ -5,10 +5,6 @@ using UnityEngine;
 public class SpawnObstacle : MonoBehaviour
 {
     public GameObject obstacle;
-    public float maxX;
-    public float minX;
-    public float maxY;
-    public float minY;
     public float timeBetweenSpawn;
     private float spawnTime;
 
@@ -21,10 +17,13 @@ public class SpawnObstacle : MonoBehaviour
     }
 
     void Spawn() {
-        float spawnX = Random.Range(minX, maxX);
-        float spawnY = Random.Range(minY, maxY);
-
-        // Spawn an obstacle in random position, where x and y are between maxX and minX and maxY and minY respectively
-        Instantiate(obstacle, transform.position + new Vector3(spawnX, spawnY, 0), transform.rotation);
+        // Spawn obstacle with an X value of 10 passed the screen width
+        float spawnX = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x + 10;
+        // Spawn obstacle at any Y value between 0 and the screen height
+        float spawnY = Random.Range(Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y, Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y);
+ 
+        // Spawn the obstacle
+        Vector2 spawnPosition = new Vector2(spawnX, spawnY);
+        Instantiate(obstacle, spawnPosition, Quaternion.identity);
     }
 }

@@ -343,11 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacle: {fileID: 2137139662738624018, guid: 38f9f84bdfed21549aaacdbf2814bd46, type: 3}
-  maxX: 3.5
-  minX: 3
-  maxY: 4.8
-  minY: -4.6
-  timeBetweenSpawn: 1.5
+  timeBetweenSpawn: 2
 --- !u!1 &382688960
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,7 +842,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1440, y: 2560}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
