@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
 {
     public float playerSpeed;
     private Rigidbody2D player;
-    private Vector2 playerDirection;
 
     // Start is called before the first frame update
     void Start() {
@@ -19,11 +18,36 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        float verticalDirection = Input.GetAxisRaw("Vertical"); // Player can only move vertically
-        playerDirection = new Vector2(0, verticalDirection).normalized;
+        // Check if at least one finger touching screen
+        if (Input.touchCount > 0) {
+            Touch touch = Input.GetTouch(0);
+
+            switch (touch.phase) {
+            case TouchPhase.Began:
+                MovePlayer(touch.position.y);
+                break;
+            case TouchPhase.Ended:
+                StopPlayer();
+                break;
+            }
+        }
+        // Check if left mouse button is clicked
+        else if (Input.GetMouseButtonDown(0)) {
+            MovePlayer(Input.mousePosition.y);
+        }
+        // Check if left mouse button is released
+        else if (Input.GetMouseButtonUp(0)) {
+            StopPlayer();
+        }
     }
 
-    void FixedUpdate() {
-        player.velocity = new Vector2(0, playerDirection.y * playerSpeed); // Move player vertically
+    private void MovePlayer(float yPos) {
+        // If touch pos <= half the screen height then move down, otherwise move up
+        // Using <= instead of < as we don't want a pos that won't move the player i.e. exactly Screen.height/2
+        player.velocity = (yPos <= Screen.height / 2) ? new Vector2(0, -playerSpeed) : new Vector2(0, playerSpeed);
+    }
+
+    private void StopPlayer() {
+        player.velocity = new Vector2(0, 0);
     }
 }
