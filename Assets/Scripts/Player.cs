@@ -10,6 +10,10 @@ public class Player : MonoBehaviour
 
     // Start is called before the first frame update
     void Start() {
+        // Spawn the player in the same position regardless of screen size i.e. responsive
+        float spawnX = 1 - Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
+        transform.position = new Vector2(spawnX, 0);
+        
         player = GetComponent<Rigidbody2D>(); 
     }
 
