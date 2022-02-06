@@ -11,6 +11,8 @@ public class Buttons : MonoBehaviour
     }
 
     public void SpellButton() {
+        // Start the spelling quiz (Spell Mode)
+        SceneManager.LoadScene("Spell");
     }
 
     public void CharactersButton() {
