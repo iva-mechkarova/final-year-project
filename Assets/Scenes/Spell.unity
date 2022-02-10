@@ -338,16 +338,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 414674100}
-        m_TargetAssemblyTypeName: TTS, Assembly-CSharp
-        m_MethodName: testTTS
-        m_Mode: 1
+      - m_Target: {fileID: 1561246351}
+        m_TargetAssemblyTypeName: SpeechController, Assembly-CSharp
+        m_MethodName: StartSpeaking
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Hello Testing The Text To Speech
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &17503364
@@ -5166,7 +5166,7 @@ GameObject:
   - component: {fileID: 1561246350}
   - component: {fileID: 1561246351}
   m_Layer: 5
-  m_Name: SpeechController
+  m_Name: TTS Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5179,16 +5179,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1561246349}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0752907, y: 1.0752907, z: 1.0752907}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 669.5864, y: 1376.3721}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1561246351
@@ -5863,19 +5863,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1747671272}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1561246351}
-        m_TargetAssemblyTypeName: SpeechController, Assembly-CSharp
-        m_MethodName: StartSpeaking
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Testing
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1747671272
 MonoBehaviour:
   m_ObjectHideFlags: 0
