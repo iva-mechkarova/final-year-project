@@ -4,6 +4,7 @@ using UnityEngine;
 using TextSpeech;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class SpellController : MonoBehaviour
 {
@@ -14,13 +15,14 @@ public class SpellController : MonoBehaviour
 
     // Start is called before the first frame update
     void Start() {
-        Setup(LANG_CODE);
-        // Code to select targetWord will go here
+        SetupTTS(LANG_CODE);
+        GetRandomTargetWord();
         StartSpeaking();
     }
 
     public void StartSpeaking() {
         TextToSpeech.instance.StartSpeak(targetWord);
+        Debug.Log("Speaking: " + targetWord);
     }
 
     public void CheckSpelling() {
@@ -33,7 +35,17 @@ public class SpellController : MonoBehaviour
         }
     }
 
-    private void Setup(string code) {
+    private void SetupTTS(string code) {
         TextToSpeech.instance.Setting(code, 1, 1);
     }
+
+    private void GetRandomTargetWord() {
+        TextAsset words = Resources.Load<TextAsset>("targetWords");
+        int lineNumber = Random.Range(1, 11);
+        using (StreamReader sr = new StreamReader(new MemoryStream(words.bytes))) {
+            for (int i = 1; i < lineNumber; i++)
+                sr.ReadLine();
+            targetWord = sr.ReadLine();
+        }
+    }  
 }
