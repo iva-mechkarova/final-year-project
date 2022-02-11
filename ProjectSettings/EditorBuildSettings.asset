@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Spell.unity
     guid: aad7f22ae7cc6d34c857ec8918c4b6f1
+  - enabled: 1
+    path: Assets/Scenes/Characters.unity
+    guid: e94d7adb3c1cd8d40b7785d3f40a3a18
   m_configObjects: {}

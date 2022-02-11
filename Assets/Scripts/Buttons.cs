@@ -15,6 +15,13 @@ public class Buttons : MonoBehaviour
         SceneManager.LoadScene("Spell");
     }
 
+    public void HomeButton() {
+        // Go to the Start Screen
+        SceneManager.LoadScene("StartScreen");
+    }
+
     public void CharactersButton() {
+        // Go to the Characters Screen
+        SceneManager.LoadScene("Characters");
     }
 }

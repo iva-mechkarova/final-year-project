@@ -6,11 +6,21 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     public Text timeText;
-    private float timeRemaining = 100;
+    public GameObject timesUpPanel;
+    private float timeRemaining = 10;
 
     // Update is called once per frame
     void Update() {
-        timeRemaining -= Time.deltaTime;
-        timeText.text = ((int)timeRemaining).ToString();
+        if (timeRemaining > 0) {
+            timeRemaining -= Time.deltaTime;
+            timeText.text = ((int)timeRemaining).ToString();
+        }
+        else {
+            timesUpPanel.SetActive(true);
+        }
+    }
+
+    public void IncreaseTimeRemaining(int timeToIncreaseBy) {
+        timeRemaining += timeToIncreaseBy;
     }
 }
