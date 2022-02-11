@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Score : MonoBehaviour
+public class MainScore : MonoBehaviour
 {
     public Text scoreText;
     private float score;
@@ -15,6 +15,9 @@ public class Score : MonoBehaviour
         if (GameObject.FindGameObjectWithTag("Player") != null) {
             score += Time.deltaTime; // Increase the score by 1 every second
             scoreText.text = ((int)score).ToString();
+        }
+        else {
+            PlayerPrefs.SetInt("mainScore", (int)score); // Store the score
         }
     }
 }

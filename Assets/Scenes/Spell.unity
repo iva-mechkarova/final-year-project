@@ -1433,7 +1433,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: USE POINTS
+  m_Text: USE STARS
 --- !u!222 &315867029
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2405,7 +2405,7 @@ GameObject:
   - component: {fileID: 491078428}
   - component: {fileID: 491078427}
   m_Layer: 5
-  m_Name: Game Score Text
+  m_Name: Game Stars Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2463,7 +2463,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Game Score:'
+  m_Text: 'Game Stars:'
 --- !u!222 &491078428
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2617,7 +2617,7 @@ GameObject:
   - component: {fileID: 541773446}
   - component: {fileID: 541773445}
   m_Layer: 5
-  m_Name: Total Score Text
+  m_Name: Total Stars Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2675,7 +2675,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Total Score:'
+  m_Text: 'Total Stars:'
 --- !u!222 &541773446
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3569,6 +3569,7 @@ GameObject:
   - component: {fileID: 814455967}
   - component: {fileID: 814455969}
   - component: {fileID: 814455968}
+  - component: {fileID: 814455970}
   m_Layer: 5
   m_Name: Time Up Panel
   m_TagString: Untagged
@@ -3634,6 +3635,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 814455966}
   m_CullTransparentMesh: 1
+--- !u!114 &814455970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814455966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea4ce527d7964b14eb3fc268f1022f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainScoreText: {fileID: 1911379450}
+  bonusScoreText: {fileID: 1573457213}
+  totalScoreText: {fileID: 1822541737}
 --- !u!1 &835790385
 GameObject:
   m_ObjectHideFlags: 0
@@ -4710,6 +4726,7 @@ GameObject:
   - component: {fileID: 1132781187}
   - component: {fileID: 1132781189}
   - component: {fileID: 1132781188}
+  - component: {fileID: 1132781190}
   m_Layer: 5
   m_Name: Remaining Time Text
   m_TagString: Untagged
@@ -4778,6 +4795,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132781186}
   m_CullTransparentMesh: 1
+--- !u!114 &1132781190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132781186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cf1960881e34374b9bb61bd2e8e2b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeText: {fileID: 1132781188}
+  timesUpPanel: {fileID: 814455966}
 --- !u!1 &1144098650
 GameObject:
   m_ObjectHideFlags: 0
@@ -5651,7 +5682,7 @@ GameObject:
   - component: {fileID: 1378949033}
   - component: {fileID: 1378949032}
   m_Layer: 5
-  m_Name: Bonus Score Text
+  m_Name: Bonus Stars Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5709,7 +5740,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Bonus Score:'
+  m_Text: 'Bonus Stars:'
 --- !u!222 &1378949033
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6371,10 +6402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typedWord: {fileID: 1213103802}
   messageText: {fileID: 778743736}
-  placeholderText: {fileID: 342978986}
-  timeText: {fileID: 1132781188}
   repeatButton: {fileID: 17503363}
-  timesUpPanel: {fileID: 814455966}
 --- !u!1 &1569905089
 GameObject:
   m_ObjectHideFlags: 0
@@ -8315,7 +8343,7 @@ GameObject:
   - component: {fileID: 1911379450}
   - component: {fileID: 1911379449}
   m_Layer: 5
-  m_Name: MainGame Score Text
+  m_Name: Main Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

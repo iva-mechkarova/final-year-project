@@ -19,6 +19,7 @@ public class SpellController : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
         SetupTTS(LANG_CODE);
+        PlayerPrefs.SetInt("bonusScore", 0); // Initialise score
         GetRandomTargetWord(); 
     }
 
@@ -66,7 +67,8 @@ public class SpellController : MonoBehaviour
 
     // Increment score, display Correct message, clear typed word, reset repeat btn
     private void AcceptSpellingAttempt() {
-        score++;
+        score += 10;
+        PlayerPrefs.SetInt("bonusScore", score); // Store the Bonus Score
         messageText.color = Color.green;
         messageText.text = "Good job! Try the next word";
         typedWord.text = "";
