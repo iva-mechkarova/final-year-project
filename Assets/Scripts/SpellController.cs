@@ -12,9 +12,10 @@ public class SpellController : MonoBehaviour
     private string targetWord = "Television"; // Initialise to Television in case we fail to fetch a random word
     private int score = 0;
     private int repeatCount = 0; // Count how many times repeat btn is pressed
+    private int skipCount = 0;
 
     public Text typedWord, messageText;
-    public Button repeatButton;
+    public Button repeatButton, skipButton;
 
     // Start is called before the first frame update
     void Start() {
@@ -25,14 +26,15 @@ public class SpellController : MonoBehaviour
 
     // Method is called when repeat button pressed
     public void RepeatWord() {
-        SpeakWordWithTTS();
-        // Increase remaining time by 10
-        GameObject.Find("Remaining Time Text").GetComponent<Timer>().IncreaseTimeRemaining(10);
         // Only allow 3 repeats per word
-        if (repeatCount < 2)
+        if (repeatCount < 3) {
+            SpeakWordWithTTS();
+            // Increase remaining time by 10
+            GameObject.Find("Remaining Time Text").GetComponent<Timer>().IncreaseTimeRemaining(10);
             repeatCount++;
-        else
-            repeatButton.interactable = false;
+            if (repeatCount == 3) 
+                repeatButton.interactable = false;
+        }
     }
 
     // Method is called when enter button pressed
@@ -45,6 +47,17 @@ public class SpellController : MonoBehaviour
         }
         else {
             RejectSpellingAttempt();
+        }
+    }
+
+    // Method is called when skip button pressed
+    public void SkipWord() {
+        // Only allow 2 skips
+        if (skipCount < 2) {
+            GetRandomTargetWord();
+            skipCount++;
+            if (skipCount == 2)
+                skipButton.interactable = false;
         }
     }
 
