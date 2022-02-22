@@ -7,7 +7,7 @@ public class Timer : MonoBehaviour
 {
     public Text timeText;
     public GameObject timesUpPanel;
-    private float timeRemaining = 10;
+    private float timeRemaining = 100;
 
     // Update is called once per frame
     void Update() {

@@ -9,10 +9,12 @@ using System.IO;
 public class SpellController : MonoBehaviour
 {
     private const string LANG_CODE = "en-US"; // TTS language code
-    private string targetWord = "Television"; // Initialise to Television in case we fail to fetch a random word
+    private int playerAgeGroup;
+    private string targetWord;
     private int score = 0;
     private int repeatCount = 0; // Count how many times repeat btn is pressed
     private int skipCount = 0;
+    private TextAsset targetWords = Resources.Load<TextAsset>("targetWords_0");
 
     public Text typedWord, messageText;
     public Button repeatButton, skipButton;
@@ -20,7 +22,9 @@ public class SpellController : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
         SetupTTS(LANG_CODE);
+        playerAgeGroup = PlayerPrefs.GetInt("ageGroup");
         PlayerPrefs.SetInt("bonusScore", 0); // Initialise score
+        GetWordsList();
         GetRandomTargetWord(); 
     }
 
@@ -66,6 +70,12 @@ public class SpellController : MonoBehaviour
         TextToSpeech.instance.Setting(code, 1, 1);
     }
 
+    // Get the words list with the relevant difficulty
+    private void GetWordsList() {
+        targetWords = Resources.Load<TextAsset>($"targetWords_{playerAgeGroup.ToString()}"); // Load targetWords list
+        Debug.Log($"Reading from file: targetWords_{playerAgeGroup.ToString()}.txt");
+    }
+
     // Speak the target word using TTS and log the word
     private void SpeakWordWithTTS() {
         TextToSpeech.instance.StartSpeak(targetWord);
@@ -91,13 +101,30 @@ public class SpellController : MonoBehaviour
 
     // Get a random word from the list and speak it using TTS
     private void GetRandomTargetWord() {
-        TextAsset words = Resources.Load<TextAsset>("targetWords"); // Load targetWords list
-        int lineNumber = Random.Range(1, 11); // Random lineNumber between 1 and 10 (num words in list)
-        using (StreamReader sr = new StreamReader(new MemoryStream(words.bytes))) {
-            for (int i = 1; i < lineNumber; i++)
+        int numberOfWords = 93;
+        switch (playerAgeGroup) {
+            case 1:
+                numberOfWords = 388;
+                break;
+            case 2:
+                numberOfWords = 683;
+                break;
+            case 3:
+                numberOfWords = 784;
+                break;
+            case 4:
+                numberOfWords = 820;
+                break;
+            default:
+                break;
+        }
+
+        int randomLineNumber = Random.Range(1, numberOfWords+1); // Random lineNumber between 1 and num words in list
+        using (StreamReader sr = new StreamReader(new MemoryStream(targetWords.bytes))) {
+            for (int i = 1; i < randomLineNumber; i++)
                 sr.ReadLine();
             targetWord = sr.ReadLine(); // Set targetWord to the randomly selected word
         }
         SpeakWordWithTTS();
-    }  
+    }
 }

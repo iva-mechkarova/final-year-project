@@ -9,13 +9,16 @@ public class AgeSelector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!PlayerPrefs.HasKey("playerAge")) {
+        if (!PlayerPrefs.HasKey("ageGroup")) {
             welcomePanel.SetActive(true);
+        }
+        else {
+            Debug.Log($"Age group: {PlayerPrefs.GetInt("ageGroup").ToString()}");
         }
     }
 
     public void SetPlayerAge(int age) {
-        PlayerPrefs.SetInt("playerAge", age);
+        PlayerPrefs.SetInt("ageGroup", age);
         welcomePanel.SetActive(false);
     }
 }
