@@ -21,9 +21,7 @@ public class CharacterSelection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerPrefs.SetInt("fish-4", 1);
         currCharacterIndex = 0;
-        PlayerPrefs.SetInt("totalScore", 800);
         playerScore = PlayerPrefs.HasKey("totalScore") ? PlayerPrefs.GetInt("totalScore") : 0;
         CheckStatusOfCharacter(0);
     }
@@ -86,7 +84,6 @@ public class CharacterSelection : MonoBehaviour
 
     private void CanAffordCharacter() {
         string costText = costs[currCharacterIndex].transform.GetChild(0).gameObject.GetComponent<Text>().text;
-        Debug.Log(costText);
         int cost = int.Parse(costText);
         if (playerScore >= cost) {
             unlockButton.interactable = true;
