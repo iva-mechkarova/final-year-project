@@ -1161,8 +1161,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 834022547}
-        m_TargetAssemblyTypeName: ConsentToggle, Assembly-CSharp
+      - m_Target: {fileID: 1467036878}
+        m_TargetAssemblyTypeName: AgeSelector, Assembly-CSharp
         m_MethodName: ConsentToggled
         m_Mode: 1
         m_Arguments:
@@ -2396,6 +2396,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   welcomePanel: {fileID: 405302488}
+  ageButtons:
+  - {fileID: 1953936372}
+  - {fileID: 1707900700}
+  - {fileID: 1017399001}
+  - {fileID: 169179938}
+  - {fileID: 894867649}
 --- !u!1 &1511450285
 GameObject:
   m_ObjectHideFlags: 0
@@ -3308,7 +3314,7 @@ GameObject:
   - component: {fileID: 1953936373}
   - component: {fileID: 1953936372}
   m_Layer: 5
-  m_Name: 2-5 Age Btn
+  m_Name: 0-5 Age Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
