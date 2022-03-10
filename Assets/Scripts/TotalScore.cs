@@ -13,4 +13,9 @@ public class TotalScore : MonoBehaviour
         if (PlayerPrefs.HasKey("totalScore"))
             scoreText.text = PlayerPrefs.GetInt("totalScore").ToString();
     }
+
+    void Update() {
+        if (PlayerPrefs.HasKey("totalScore"))
+            scoreText.text = PlayerPrefs.GetInt("totalScore").ToString();
+    }
 }

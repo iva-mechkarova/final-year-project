@@ -55,6 +55,8 @@ public class CharacterSelection : MonoBehaviour
 
     public void UnlockButtonPressed() {
         PlayerPrefs.SetInt("fish-"+currCharacterIndex.ToString(), 1);
+        playerScore -= GetCurrCharacterCost();
+        PlayerPrefs.SetInt("totalScore", playerScore);
         CheckStatusOfCharacter(currCharacterIndex);
     }
 
@@ -83,13 +85,17 @@ public class CharacterSelection : MonoBehaviour
     }
 
     private void CanAffordCharacter() {
-        string costText = costs[currCharacterIndex].transform.GetChild(0).gameObject.GetComponent<Text>().text;
-        int cost = int.Parse(costText);
+        int cost = GetCurrCharacterCost();
         if (playerScore >= cost) {
             unlockButton.interactable = true;
         }
         else {
             unlockButton.interactable = false;
         }
+    }
+
+    private int GetCurrCharacterCost() {
+        string costText = costs[currCharacterIndex].transform.GetChild(0).gameObject.GetComponent<Text>().text;
+        return int.Parse(costText);
     }
 }
