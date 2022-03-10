@@ -15,12 +15,17 @@ public class CharacterSelection : MonoBehaviour
     private int playerScore;
 
     public Button unlockButton;
+    public Button selectButton;
+    public GameObject selectedText;
 
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPrefs.SetInt("fish-4", 1);
         currCharacterIndex = 0;
+        PlayerPrefs.SetInt("totalScore", 800);
         playerScore = PlayerPrefs.HasKey("totalScore") ? PlayerPrefs.GetInt("totalScore") : 0;
+        CheckStatusOfCharacter(0);
     }
 
     public void RightBtnPressed() {
@@ -38,20 +43,44 @@ public class CharacterSelection : MonoBehaviour
             if (i != currCharacterIndex) {
                 characters[i].SetActive(false);
                 costs[i].SetActive(false);
-                continue;
             }
             else {
-                characters[i].SetActive(true);
-                int isUnlocked = PlayerPrefs.HasKey("fish-"+i.ToString()) ? PlayerPrefs.GetInt("fish-"+i.ToString()) : 0;
-                if (isUnlocked == 1) {
-                    costs[i].SetActive(false);
-                    costs[0].SetActive(true);
-                }
-                else {
-                    CanAffordCharacter();
-                    costs[i].SetActive(true);
-                }
+                CheckStatusOfCharacter(i);
             }
+        }
+    }
+
+    public void SelectButtonPressed() {
+        PlayerPrefs.SetInt("selectedCharacter", currCharacterIndex);
+        CheckStatusOfCharacter(currCharacterIndex);
+    }
+
+    public void UnlockButtonPressed() {
+        PlayerPrefs.SetInt("fish-"+currCharacterIndex.ToString(), 1);
+        CheckStatusOfCharacter(currCharacterIndex);
+    }
+
+    private void CheckStatusOfCharacter(int i) {
+        selectedText.SetActive(false);
+        characters[i].SetActive(true);
+        selectButton.gameObject.SetActive(false);
+        costs[0].SetActive(false);
+        int isUnlocked = PlayerPrefs.HasKey("fish-"+i.ToString()) ? PlayerPrefs.GetInt("fish-"+i.ToString()) : 0;
+        if (isUnlocked == 1) {
+            costs[i].SetActive(false);
+            unlockButton.gameObject.SetActive(false);
+            if (PlayerPrefs.GetInt("selectedCharacter") == i) {
+                selectedText.SetActive(true);
+            }
+            else {
+                selectButton.gameObject.SetActive(true);
+                costs[0].SetActive(true);
+            }
+        }
+        else {
+            CanAffordCharacter();
+            unlockButton.gameObject.SetActive(true);
+            costs[i].SetActive(true);
         }
     }
 

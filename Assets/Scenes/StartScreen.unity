@@ -1085,7 +1085,6 @@ GameObject:
   m_Component:
   - component: {fileID: 834022545}
   - component: {fileID: 834022546}
-  - component: {fileID: 834022547}
   m_Layer: 5
   m_Name: Consent Toggle
   m_TagString: Untagged
@@ -1174,23 +1173,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
---- !u!114 &834022547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 834022544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7512bad84a3b9904f92bfeb590ae6c09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button1: {fileID: 1953936372}
-  button2: {fileID: 1707900700}
-  button3: {fileID: 1017399001}
-  button4: {fileID: 169179938}
-  button5: {fileID: 894867649}
 --- !u!1 &894867647
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,12 +10,7 @@ public class LoadCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(characterPrefabs[0], transform);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        int selectedCharacter = PlayerPrefs.HasKey("selectedCharacter") ? PlayerPrefs.GetInt("selectedCharacter") : 0;
+        Instantiate(characterPrefabs[selectedCharacter], transform);
     }
 }
