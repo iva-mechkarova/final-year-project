@@ -8463,7 +8463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pitch: 1
-  rate: 1
+  rate: 0.8
 --- !u!1 &1911379447
 GameObject:
   m_ObjectHideFlags: 0

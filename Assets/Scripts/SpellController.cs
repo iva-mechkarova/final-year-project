@@ -8,23 +8,24 @@ using System.IO;
 
 public class SpellController : MonoBehaviour
 {
-    private const string LANG_CODE = "en-US"; // TTS language code
+    private List<int> wordListProbabilities; // Probability of selecting word from each list differs depending on age
     private int playerAgeGroup;
     private string targetWord;
     private int score = 0;
     private int repeatCount = 0; // Count how many times repeat btn is pressed
-    private int skipCount = 0;
-    private TextAsset targetWords = Resources.Load<TextAsset>("targetWords_0");
+    private int skipCount = 0; // Count how many times skip btn is pressed
+    private TextAsset targetWordsList; // List of target words
+    private int selectedWordList = 0;
 
     public Text typedWord, messageText;
     public Button repeatButton, skipButton;
 
     // Start is called before the first frame update
     void Start() {
-        SetupTTS(LANG_CODE);
-        playerAgeGroup = PlayerPrefs.GetInt("ageGroup");
+        SetupTTS();
+        playerAgeGroup = PlayerPrefs.HasKey("ageGroup") ? PlayerPrefs.GetInt("ageGroup") : 0;
         PlayerPrefs.SetInt("bonusScore", 0); // Initialise score
-        GetWordsList();
+        InitWordListProbabilities();
         GetRandomTargetWord(); 
     }
 
@@ -66,14 +67,67 @@ public class SpellController : MonoBehaviour
     }
 
     // Setup TTS with params: language, pitch, speed
-    private void SetupTTS(string code) {
-        TextToSpeech.instance.Setting(code, 1, 1);
+    private void SetupTTS() {
+        TextToSpeech.instance.Setting("en-US", 1, (float)0.8);
     }
 
-    // Get the words list with the relevant difficulty
+    // Set the probabilities of selecting a list to the probabilities for the player's age group
+    private void InitWordListProbabilities() {  
+        switch (playerAgeGroup) {
+            case 1:
+                wordListProbabilities = new List<int>{0, 1, 1}; // 33% list 0, 67% list 1
+                break;
+            case 2:
+                wordListProbabilities = new List<int>{0, 1, 1, 2, 2, 2}; // 17% list 0, 33% list 1, 50% list 3
+                break;
+            case 3:
+                wordListProbabilities = new List<int>{0, 1, 2, 2, 2, 3, 3, 3, 3, 3}; // 10% list 0, 10% list 1, 30% list 2, 50% list 3
+                break;
+            case 4:
+                wordListProbabilities = new List<int>{0, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4}; // 8% list 0, 8% list 1, 17% list 2, 25% list 3, 42% list 4
+                break;
+            default:
+                wordListProbabilities = new List<int>{0}; // 100% chance to select list 0
+                break;
+        }
+    }
+
+    // Get a random word and speak it using TTS
+    private void GetRandomTargetWord() {
+        GetWordsList();
+        int numberOfWords = 94;
+        switch (selectedWordList) {
+            case 1:
+                numberOfWords = 295;
+                break;
+            case 2:
+                numberOfWords = 296;
+                break;
+            case 3:
+                numberOfWords = 102;
+                break;
+            case 4:
+                numberOfWords = 37;
+                break;
+            default:
+                break;
+        }
+
+        int randomLineNumber = Random.Range(1, numberOfWords+1); // Random lineNumber between 1 and num words in list
+        using (StreamReader sr = new StreamReader(new MemoryStream(targetWordsList.bytes))) {
+            for (int i = 1; i < randomLineNumber; i++)
+                sr.ReadLine();
+            targetWord = sr.ReadLine().Trim(); // Set targetWord to the randomly selected word
+        }
+        SpeakWordWithTTS();
+    }
+
+    // Select the words list using the probabilities for the player's age group
     private void GetWordsList() {
-        targetWords = Resources.Load<TextAsset>($"targetWords_{playerAgeGroup.ToString()}"); // Load targetWords list
-        Debug.Log($"Reading from file: targetWords_{playerAgeGroup.ToString()}.txt");
+        int wordListIndex = Random.Range(1, wordListProbabilities.Count-1); // Select a random element from list, naturally it will be in the given probabilities
+        selectedWordList = wordListProbabilities[wordListIndex];
+        targetWordsList = Resources.Load<TextAsset>($"targetWords_{selectedWordList.ToString()}"); // Load targetWords list
+        Debug.Log($"Reading from file: targetWords_{selectedWordList.ToString()}.txt");
     }
 
     // Speak the target word using TTS and log the word
@@ -90,41 +144,12 @@ public class SpellController : MonoBehaviour
 
     // Increment score, display Correct message, clear typed word, reset repeat btn
     private void AcceptSpellingAttempt() {
-        score += 10;
+        score += 5;
         PlayerPrefs.SetInt("bonusScore", score); // Store the Bonus Score
         messageText.color = Color.green;
         messageText.text = "Good job! Try the next word";
         typedWord.text = "";
         repeatCount = 0;
         repeatButton.interactable = true;
-    }
-
-    // Get a random word from the list and speak it using TTS
-    private void GetRandomTargetWord() {
-        int numberOfWords = 93;
-        switch (playerAgeGroup) {
-            case 1:
-                numberOfWords = 388;
-                break;
-            case 2:
-                numberOfWords = 683;
-                break;
-            case 3:
-                numberOfWords = 784;
-                break;
-            case 4:
-                numberOfWords = 820;
-                break;
-            default:
-                break;
-        }
-
-        int randomLineNumber = Random.Range(1, numberOfWords+1); // Random lineNumber between 1 and num words in list
-        using (StreamReader sr = new StreamReader(new MemoryStream(targetWords.bytes))) {
-            for (int i = 1; i < randomLineNumber; i++)
-                sr.ReadLine();
-            targetWord = sr.ReadLine(); // Set targetWord to the randomly selected word
-        }
-        SpeakWordWithTTS();
     }
 }
