@@ -8,14 +8,15 @@ using System.IO;
 
 public class SpellController : MonoBehaviour
 {
-    private List<int> wordListProbabilities; // Probability of selecting word from each list differs depending on age
     private int playerAgeGroup;
     private string targetWord;
     private int score = 0;
     private int repeatCount = 0; // Count how many times repeat btn is pressed
     private int skipCount = 0; // Count how many times skip btn is pressed
     private TextAsset targetWordsList; // List of target words
+    private List<int> wordListProbabilities; // Probability of selecting word from each list differs depending on age
     private int selectedWordList = 0;
+    private List<string> askedTargetWords = new List<string>(); // Record asked words to avoid repetition
 
     public Text typedWord, messageText;
     public Button repeatButton, skipButton;
@@ -46,7 +47,7 @@ public class SpellController : MonoBehaviour
     public void CheckSpelling() {
         messageText.gameObject.SetActive(true);
 
-        if (targetWord.ToUpper().Equals(typedWord.text.ToUpper())) {
+        if (targetWord.Equals(typedWord.text.ToUpper())) {
             AcceptSpellingAttempt();
             GetRandomTargetWord();
         }
@@ -92,8 +93,25 @@ public class SpellController : MonoBehaviour
         }
     }
 
-    // Get a random word and speak it using TTS
+    // Get a random word that hasn't been asked before and speak it using TTS
     private void GetRandomTargetWord() {
+        string potentialTargetWord = GetPotentialRandomTargetWord();
+        // While word has been asked pick a new one and if it hasn't been asked then this is new target word
+        while (askedTargetWords.Contains(potentialTargetWord)) {
+            string newPotentialTargetWord = GetPotentialRandomTargetWord();
+            if (!askedTargetWords.Contains(newPotentialTargetWord)) {
+                potentialTargetWord = newPotentialTargetWord;
+                break;
+            }
+        }
+
+        targetWord = potentialTargetWord;
+        askedTargetWords.Add(targetWord);
+        SpeakWordWithTTS();
+    }
+
+    // Get a potential random target word (we will need to check if it has been asked already)
+    private string GetPotentialRandomTargetWord() {
         GetWordsList();
         int numberOfWords = 94;
         switch (selectedWordList) {
@@ -112,14 +130,14 @@ public class SpellController : MonoBehaviour
             default:
                 break;
         }
-
+        string potentialTargetWord;
         int randomLineNumber = Random.Range(1, numberOfWords+1); // Random lineNumber between 1 and num words in list
         using (StreamReader sr = new StreamReader(new MemoryStream(targetWordsList.bytes))) {
             for (int i = 1; i < randomLineNumber; i++)
                 sr.ReadLine();
-            targetWord = sr.ReadLine().Trim(); // Set targetWord to the randomly selected word
+            potentialTargetWord = sr.ReadLine().Trim().ToUpper(); // Set targetWord to the randomly selected word
         }
-        SpeakWordWithTTS();
+        return potentialTargetWord;
     }
 
     // Select the words list using the probabilities for the player's age group
