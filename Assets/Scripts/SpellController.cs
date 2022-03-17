@@ -14,7 +14,6 @@ public class SpellController : SendSpellingToDB
     private int skipCount = 0; // Count how many times skip btn is pressed
     private TextAsset targetWordsList; // List of target words
     private List<int> wordListProbabilities; // Probability of selecting word from each list differs depending on age
-    private int selectedWordList = 0;
     private List<string> askedTargetWords = new List<string>(); // Record asked words to avoid repetition
 
     public Text typedWord, messageText;

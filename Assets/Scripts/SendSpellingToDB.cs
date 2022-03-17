@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class SendSpellingToDB : MonoBehaviour {
+    // All fields protected as SpellController script must be able to access
     protected string id;
     protected string userId;
     protected string targetWord;
     protected int repeatCount = 0; // Count how many times repeat btn is pressed
+    protected int selectedWordList = 0; // Stores which list we are reading from (asc difficulty of 0 - 4)
 
     protected IEnumerator RecordAskedWord() {
         WWWForm form = new WWWForm();
@@ -15,6 +17,7 @@ public class SendSpellingToDB : MonoBehaviour {
         form.AddField("id", id);
         form.AddField("userId", userId);
         form.AddField("targetWord", targetWord);
+        form.AddField("difficulty", selectedWordList);
 
         // Call the Web API that records the asked word to the MySQL DB
         using (UnityWebRequest www = UnityWebRequest.Post("http://192.168.0.122/sounditout/RecordAskedWord.php", form)) {
