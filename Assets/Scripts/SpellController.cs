@@ -44,8 +44,8 @@ public class SpellController : SendSpellingToDB
 
     // Method is called when enter button pressed
     public void CheckSpelling() {
+        StartCoroutine(RecordAttempt(typedWord.text.ToUpper())); // Record attempt in DB
         messageText.gameObject.SetActive(true);
-
         if (targetWord.Equals(typedWord.text.ToUpper())) {
             AcceptSpellingAttempt();
             GetRandomTargetWord();
@@ -94,7 +94,7 @@ public class SpellController : SendSpellingToDB
 
     // Get a random word that hasn't been asked before and speak it using TTS
     private void GetRandomTargetWord(bool skipped = false) {
-        // Record num repeats for the last word
+        // Record num repeats for the last word in DB
         if (repeatCount > 0) {
             StartCoroutine(UpdateNumRepeats());
             repeatCount = 0; // Reset repeat counter as new word being selected
@@ -102,7 +102,7 @@ public class SpellController : SendSpellingToDB
 
         // Record if last word has been skipped
         if (skipped) 
-            StartCoroutine(UpdateSkipped());
+            StartCoroutine(UpdateSkipped()); // Update the skipped value in the DB
 
         string potentialTargetWord = GetPotentialRandomTargetWord();
         // While word has been asked pick a new one and if it hasn't been asked then this is new target word

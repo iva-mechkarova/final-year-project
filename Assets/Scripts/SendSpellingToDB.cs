@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System;
 
 public class SendSpellingToDB : MonoBehaviour {
     // All fields protected as SpellController script must be able to access
@@ -26,7 +27,7 @@ public class SendSpellingToDB : MonoBehaviour {
             if (www.result != UnityWebRequest.Result.Success)
                 Debug.Log(www.error);
             else
-                Debug.Log("Asked word registered successfully!");
+                Debug.Log("Asked word recorded successfully!");
         }
     }
 
@@ -60,6 +61,24 @@ public class SendSpellingToDB : MonoBehaviour {
                 Debug.Log(www.error);
             else
                 Debug.Log("Skipped updated successfully!");
+        }
+    }
+    
+    protected IEnumerator RecordAttempt(string attempt) {
+        WWWForm form = new WWWForm();
+        // Send the necessary attributes to the API
+        form.AddField("id", Guid.NewGuid().ToString());
+        form.AddField("wordId", id);
+        form.AddField("attempt", attempt);
+
+        // Call the Web API that updates the skipped value to TRUE in the DB for the given id
+        using (UnityWebRequest www = UnityWebRequest.Post("http://192.168.0.122/sounditout/RecordAttempt.php", form)) {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+                Debug.Log(www.error);
+            else
+                Debug.Log("Attempt recorded successfully!");
         }
     }
 }
