@@ -5,13 +5,12 @@ using TextSpeech;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.IO;
+using System;
 
-public class SpellController : MonoBehaviour
+public class SpellController : SendSpellingToDB
 {
     private int playerAgeGroup;
-    private string targetWord;
     private int score = 0;
-    private int repeatCount = 0; // Count how many times repeat btn is pressed
     private int skipCount = 0; // Count how many times skip btn is pressed
     private TextAsset targetWordsList; // List of target words
     private List<int> wordListProbabilities; // Probability of selecting word from each list differs depending on age
@@ -24,6 +23,7 @@ public class SpellController : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
         SetupTTS();
+        userId = PlayerPrefs.GetString("id");
         playerAgeGroup = PlayerPrefs.HasKey("ageGroup") ? PlayerPrefs.GetInt("ageGroup") : 0;
         PlayerPrefs.SetInt("bonusScore", 0); // Initialise score
         InitWordListProbabilities();
@@ -60,7 +60,7 @@ public class SpellController : MonoBehaviour
     public void SkipWord() {
         // Only allow 2 skips
         if (skipCount < 2) {
-            GetRandomTargetWord();
+            GetRandomTargetWord(true);
             skipCount++;
             if (skipCount == 2)
                 skipButton.interactable = false;
@@ -94,7 +94,17 @@ public class SpellController : MonoBehaviour
     }
 
     // Get a random word that hasn't been asked before and speak it using TTS
-    private void GetRandomTargetWord() {
+    private void GetRandomTargetWord(bool skipped = false) {
+        // Record num repeats for the last word
+        if (repeatCount > 0) {
+            StartCoroutine(UpdateNumRepeats());
+            repeatCount = 0; // Reset repeat counter as new word being selected
+        }
+
+        // Record if last word has been skipped
+        if (skipped) 
+            StartCoroutine(UpdateSkipped());
+
         string potentialTargetWord = GetPotentialRandomTargetWord();
         // While word has been asked pick a new one and if it hasn't been asked then this is new target word
         while (askedTargetWords.Contains(potentialTargetWord)) {
@@ -107,6 +117,10 @@ public class SpellController : MonoBehaviour
 
         targetWord = potentialTargetWord;
         askedTargetWords.Add(targetWord);
+
+        id = Guid.NewGuid().ToString(); // Generate a new unique identifier
+        StartCoroutine(RecordAskedWord()); // Send the asked word to the DB
+
         SpeakWordWithTTS();
     }
 
@@ -131,7 +145,7 @@ public class SpellController : MonoBehaviour
                 break;
         }
         string potentialTargetWord;
-        int randomLineNumber = Random.Range(1, numberOfWords+1); // Random lineNumber between 1 and num words in list
+        int randomLineNumber = UnityEngine.Random.Range(1, numberOfWords+1); // Random lineNumber between 1 and num words in list
         using (StreamReader sr = new StreamReader(new MemoryStream(targetWordsList.bytes))) {
             for (int i = 1; i < randomLineNumber; i++)
                 sr.ReadLine();
@@ -142,7 +156,7 @@ public class SpellController : MonoBehaviour
 
     // Select the words list using the probabilities for the player's age group
     private void GetWordsList() {
-        int wordListIndex = Random.Range(1, wordListProbabilities.Count-1); // Select a random element from list, naturally it will be in the given probabilities
+        int wordListIndex = UnityEngine.Random.Range(1, wordListProbabilities.Count-1); // Select a random element from list, naturally it will be in the given probabilities
         selectedWordList = wordListProbabilities[wordListIndex];
         targetWordsList = Resources.Load<TextAsset>($"targetWords_{selectedWordList.ToString()}"); // Load targetWords list
         Debug.Log($"Reading from file: targetWords_{selectedWordList.ToString()}.txt");
@@ -167,7 +181,6 @@ public class SpellController : MonoBehaviour
         messageText.color = Color.green;
         messageText.text = "Good job! Try the next word";
         typedWord.text = "";
-        repeatCount = 0;
         repeatButton.interactable = true;
     }
 }
