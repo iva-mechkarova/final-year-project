@@ -11,7 +11,8 @@ public class SpellAPIs : MonoBehaviour {
     protected string targetWord;
     protected int repeatCount = 0; // Count how many times repeat btn is pressed
     protected int selectedWordList = 0; // Stores which list we are reading from (asc difficulty of 0 - 4)
-    protected int phoneticDistance = 0; // Stores the most recent attempt's distance from target word (0 - 4, where 0 is identical)
+    protected int phoneticDistance = 4; // Stores the most recent attempt's distance from target word (0 - 4, where 0 is identical)
+    protected bool phoneticDistanceCalculatedOrError = false;
 
     protected IEnumerator RecordAskedWord() {
         WWWForm form = new WWWForm();
@@ -66,6 +67,9 @@ public class SpellAPIs : MonoBehaviour {
     }
     
     protected IEnumerator RecordAttempt(string attempt) {
+        phoneticDistance = 4; // Reset phonetic distance
+        phoneticDistanceCalculatedOrError = false;
+
         WWWForm form = new WWWForm();
         // Send the necessary attributes to the API
         string attemptId = Guid.NewGuid().ToString();
@@ -84,15 +88,18 @@ public class SpellAPIs : MonoBehaviour {
                 case UnityWebRequest.Result.ConnectionError:
                 case UnityWebRequest.Result.DataProcessingError:
                     Debug.LogError(pages[page] + ": Error: " + www.error);
+                    phoneticDistanceCalculatedOrError = true;
                     break;
                 case UnityWebRequest.Result.ProtocolError:
                     Debug.LogError(pages[page] + ": HTTP Error: " + www.error);
+                    phoneticDistanceCalculatedOrError = true;
                     break;
                 case UnityWebRequest.Result.Success:
                     Debug.Log(pages[page] + ":\nReceived: " + www.downloadHandler.text);
 
                     string[] soundexCodes = www.downloadHandler.text.Split(' ');
                     CalculatePhoneticDistance(soundexCodes);
+                    phoneticDistanceCalculatedOrError = true;
                     StartCoroutine(UpdatePhoneticDistance(attemptId));
                     break;
             }
@@ -118,10 +125,10 @@ public class SpellAPIs : MonoBehaviour {
 
     // Method to calculate the phonetic distance using two soundex codes
     private void CalculatePhoneticDistance(string[] soundexCodes) {
-        phoneticDistance = 0;
+        phoneticDistance = 4;
         for (int i=0; i<4; i++) {
-            if (soundexCodes[0][i]!=soundexCodes[1][i])
-                phoneticDistance++;
+            if (soundexCodes[0][i]==soundexCodes[1][i])
+                phoneticDistance--;
         }
     }
 }

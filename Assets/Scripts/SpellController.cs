@@ -34,8 +34,8 @@ public class SpellController : SpellAPIs
         // Only allow 3 repeats per word
         if (repeatCount < 3) {
             SpeakWordWithTTS();
-            // Increase remaining time by 10
-            GameObject.Find("Remaining Time Text").GetComponent<Timer>().IncreaseTimeRemaining(10);
+            // Increase remaining time by 3
+            GameObject.Find("Remaining Time Text").GetComponent<Timer>().IncreaseTimeRemaining(3);
             repeatCount++;
             if (repeatCount == 3) 
                 repeatButton.interactable = false;
@@ -46,13 +46,7 @@ public class SpellController : SpellAPIs
     public void CheckSpelling() {
         StartCoroutine(RecordAttempt(typedWord.text.ToUpper())); // Record attempt in DB
         messageText.gameObject.SetActive(true);
-        if (targetWord.Equals(typedWord.text.ToUpper())) {
-            AcceptSpellingAttempt();
-            GetRandomTargetWord();
-        }
-        else {
-            RejectSpellingAttempt();
-        }
+        StartCoroutine(CheckSpellingAfterPhoneticDistance());
     }
 
     // Method is called when skip button pressed
@@ -61,6 +55,7 @@ public class SpellController : SpellAPIs
         if (skipCount < 2) {
             GetRandomTargetWord(true);
             skipCount++;
+            typedWord.text = "";
             if (skipCount == 2)
                 skipButton.interactable = false;
         }
@@ -167,6 +162,20 @@ public class SpellController : SpellAPIs
         Debug.Log("Target Word: " + targetWord);
     }
 
+    // Wait for the RecordAttempt API to calculate phonetic distance or return an error then check spelling
+    private IEnumerator CheckSpellingAfterPhoneticDistance() {
+        while (!phoneticDistanceCalculatedOrError) {
+            Debug.Log("Waiting for phonetic distance calculation OR server error");
+            yield return new WaitForSeconds(0.1f);
+        }
+        if (phoneticDistance == 0 || targetWord.Equals(typedWord.text.ToUpper())) {
+            AcceptSpellingAttempt();
+        }
+        else {
+            RejectSpellingAttempt();
+        }
+    }
+
     // Display Incorrect error message
     private void RejectSpellingAttempt() {
         messageText.color = Color.red;
@@ -175,11 +184,15 @@ public class SpellController : SpellAPIs
 
     // Increment score, display Correct message, clear typed word, reset repeat btn
     private void AcceptSpellingAttempt() {
-        score += 5;
+        // If true then spelling correctly, if false then phonetic distance is 0 but spelled wrong
+        bool correctSpelling = targetWord.Equals(typedWord.text.ToUpper());
+
+        score = correctSpelling ? score+5 : score+2;
         PlayerPrefs.SetInt("bonusScore", score); // Store the Bonus Score
-        messageText.color = Color.green;
-        messageText.text = "Good job! Try the next word";
+        messageText.color = correctSpelling ? Color.green : new Color(1.0f, 0.64f, 0.0f);
+        messageText.text = correctSpelling ? "Correct, Well Done! Keep Going" : "Good Attempt at Sounding It Out! Correct answer was " + targetWord;
         typedWord.text = "";
         repeatButton.interactable = true;
+        GetRandomTargetWord();
     }
 }
