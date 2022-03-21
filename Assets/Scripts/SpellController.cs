@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System;
 
-public class SpellController : SendSpellingToDB
+public class SpellController : SpellAPIs
 {
     private int playerAgeGroup;
     private int score = 0;

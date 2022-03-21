@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System;
 
-public class SendSpellingToDB : MonoBehaviour {
+public class SpellAPIs : MonoBehaviour {
     // All fields protected as SpellController script must be able to access
     protected string id;
     protected string userId;
@@ -92,11 +92,7 @@ public class SendSpellingToDB : MonoBehaviour {
                     Debug.Log(pages[page] + ":\nReceived: " + www.downloadHandler.text);
 
                     string[] soundexCodes = www.downloadHandler.text.Split(' ');
-                    phoneticDistance = 0;
-                    for (int i=0; i<4; i++) {
-                        if (soundexCodes[0][i]!=soundexCodes[1][i])
-                            phoneticDistance++;
-                    }
+                    CalculatePhoneticDistance(soundexCodes);
                     StartCoroutine(UpdatePhoneticDistance(attemptId));
                     break;
             }
@@ -117,6 +113,15 @@ public class SendSpellingToDB : MonoBehaviour {
                 Debug.Log(www.error);
             else
                 Debug.Log("Phonetic distance updated successfully!");
+        }
+    }
+
+    // Method to calculate the phonetic distance using two soundex codes
+    private void CalculatePhoneticDistance(string[] soundexCodes) {
+        phoneticDistance = 0;
+        for (int i=0; i<4; i++) {
+            if (soundexCodes[0][i]!=soundexCodes[1][i])
+                phoneticDistance++;
         }
     }
 }
