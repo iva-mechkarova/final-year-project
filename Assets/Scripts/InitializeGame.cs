@@ -45,6 +45,7 @@ public class InitializeGame : MonoBehaviour
         }
     }
 
+    // Method to add the user to the DB
     private IEnumerator RegisterUser(string id, int age) {
         WWWForm form = new WWWForm();
         // Send the generated unique id and ageGroup to the DB
@@ -52,7 +53,7 @@ public class InitializeGame : MonoBehaviour
         form.AddField("ageGroup", age);
 
         // Call the Web API that registers the user to the MySQL DB
-        using (UnityWebRequest www = UnityWebRequest.Post("http://192.168.0.122/sounditout/RegisterUser.php", form)) {
+        using (UnityWebRequest www = UnityWebRequest.Post("http://63.33.210.198/sounditout/RegisterUser.php", form)) {
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
