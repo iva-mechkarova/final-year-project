@@ -53,7 +53,7 @@ public class InitializeGame : MonoBehaviour
         form.AddField("ageGroup", age);
 
         // Call the Web API that registers the user to the MySQL DB
-        using (UnityWebRequest www = UnityWebRequest.Post("http://63.33.210.198/sounditout/RegisterUser.php", form)) {
+        using (UnityWebRequest www = UnityWebRequest.Post("http://52.212.158.172/sounditout/RegisterUser.php", form)) {
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)

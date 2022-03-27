@@ -166,14 +166,22 @@ public class SpellController : SpellAPIs
     private IEnumerator CheckSpellingAfterPhoneticDistance() {
         while (!phoneticDistanceCalculatedOrError) {
             Debug.Log("Waiting for phonetic distance calculation OR server error");
+            ChangeButtonsInteractibility(false);
             yield return new WaitForSeconds(0.1f);
         }
+        ChangeButtonsInteractibility(true);
         if (phoneticDistance == 0 || targetWord.Equals(typedWord.text.ToUpper())) {
             AcceptSpellingAttempt();
         }
         else {
             RejectSpellingAttempt();
         }
+    }
+
+    private void ChangeButtonsInteractibility(bool enabled) {
+        GameObject[] buttons = GameObject.FindGameObjectsWithTag("Button");
+        foreach (GameObject button in buttons)
+                button.GetComponent<Button>().interactable = enabled;
     }
 
     // Display Incorrect error message

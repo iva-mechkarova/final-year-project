@@ -23,7 +23,7 @@ public class SpellAPIs : MonoBehaviour {
         form.AddField("difficulty", selectedWordList);
 
         // Call the Web API that records the asked word to the MySQL DB
-        using (UnityWebRequest www = UnityWebRequest.Post("http://63.33.210.198/sounditout/RecordAskedWord.php", form)) {
+        using (UnityWebRequest www = UnityWebRequest.Post("http://52.212.158.172/sounditout/RecordAskedWord.php", form)) {
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
@@ -40,7 +40,7 @@ public class SpellAPIs : MonoBehaviour {
         form.AddField("numRepeats", repeatCount);
 
         // Call the Web API that updates the num_repeats value in the DB for the given id
-        using (UnityWebRequest www = UnityWebRequest.Post("http://63.33.210.198/sounditout/UpdateNumRepeats.php", form)) {
+        using (UnityWebRequest www = UnityWebRequest.Post("http://52.212.158.172/sounditout/UpdateNumRepeats.php", form)) {
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
@@ -56,7 +56,7 @@ public class SpellAPIs : MonoBehaviour {
         form.AddField("id", id);
 
         // Call the Web API that updates the skipped value to TRUE in the DB for the given id
-        using (UnityWebRequest www = UnityWebRequest.Post("http://63.33.210.198/sounditout/UpdateSkipped.php", form)) {
+        using (UnityWebRequest www = UnityWebRequest.Post("http://52.212.158.172/sounditout/UpdateSkipped.php", form)) {
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
@@ -78,30 +78,23 @@ public class SpellAPIs : MonoBehaviour {
         form.AddField("attempt", attempt);
 
         // Call the Web API that updates the skipped value to TRUE in the DB for the given id
-        using (UnityWebRequest www = UnityWebRequest.Post("http://63.33.210.198/sounditout/RecordAttempt.php", form)) {
+        using (UnityWebRequest www = UnityWebRequest.Post("http://52.212.158.172/sounditout/RecordAttempt.php", form)) {
+            www.timeout = 4; // Wait up to 4 seconds
             yield return www.SendWebRequest();
-
-            string[] pages = "http://63.33.210.198/sounditout/RecordAttempt.php".Split('/');
-            int page = pages.Length - 1;
-
-            switch (www.result) {
-                case UnityWebRequest.Result.ConnectionError:
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError(pages[page] + ": Error: " + www.error);
-                    phoneticDistanceCalculatedOrError = true;
-                    break;
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError(pages[page] + ": HTTP Error: " + www.error);
-                    phoneticDistanceCalculatedOrError = true;
-                    break;
-                case UnityWebRequest.Result.Success:
-                    Debug.Log(pages[page] + ":\nReceived: " + www.downloadHandler.text);
-
-                    string[] soundexCodes = www.downloadHandler.text.Split(' ');
-                    CalculatePhoneticDistance(soundexCodes);
-                    phoneticDistanceCalculatedOrError = true;
-                    StartCoroutine(UpdatePhoneticDistance(attemptId));
-                    break;
+          
+            if (www.result != UnityWebRequest.Result.Success) {
+                phoneticDistanceCalculatedOrError = true;
+                if (www.error == null)
+                    Debug.Log("RecordAttempt timed out - server is down or slow");
+                else 
+                    Debug.Log(www.error);
+            }
+            else {
+                Debug.Log("Recorded attempt successfully");
+                string[] soundexCodes = www.downloadHandler.text.Split(' ');
+                CalculatePhoneticDistance(soundexCodes);
+                phoneticDistanceCalculatedOrError = true;
+                StartCoroutine(UpdatePhoneticDistance(attemptId));
             }
         }
     }
@@ -113,7 +106,7 @@ public class SpellAPIs : MonoBehaviour {
         form.AddField("phoneticDistance", phoneticDistance);
 
         // Call the Web API that updates the skipped value to TRUE in the DB for the given id
-        using (UnityWebRequest www = UnityWebRequest.Post("http://63.33.210.198/sounditout/UpdatePhoneticDistance.php", form)) {
+        using (UnityWebRequest www = UnityWebRequest.Post("http://52.212.158.172/sounditout/UpdatePhoneticDistance.php", form)) {
             yield return www.SendWebRequest();
 
             if (www.result != UnityWebRequest.Result.Success)
