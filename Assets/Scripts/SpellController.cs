@@ -18,6 +18,7 @@ public class SpellController : SpellAPIs
 
     public Text typedWord, messageText;
     public Button repeatButton, skipButton;
+    public GameObject loader;
 
     // Start is called before the first frame update
     void Start() {
@@ -45,7 +46,6 @@ public class SpellController : SpellAPIs
     // Method is called when enter button pressed
     public void CheckSpelling() {
         StartCoroutine(RecordAttempt(typedWord.text.ToUpper())); // Record attempt in DB
-        messageText.gameObject.SetActive(true);
         StartCoroutine(CheckSpellingAfterPhoneticDistance());
     }
 
@@ -166,10 +166,10 @@ public class SpellController : SpellAPIs
     private IEnumerator CheckSpellingAfterPhoneticDistance() {
         while (!phoneticDistanceCalculatedOrError) {
             Debug.Log("Waiting for phonetic distance calculation OR server error");
-            ChangeButtonsInteractibility(false);
+            ChangeLoadingState(true);
             yield return new WaitForSeconds(0.1f);
         }
-        ChangeButtonsInteractibility(true);
+        ChangeLoadingState(false);
         if (phoneticDistance == 0 || targetWord.Equals(typedWord.text.ToUpper())) {
             AcceptSpellingAttempt();
         }
@@ -178,10 +178,11 @@ public class SpellController : SpellAPIs
         }
     }
 
-    private void ChangeButtonsInteractibility(bool enabled) {
+    private void ChangeLoadingState(bool isLoading) {
         GameObject[] buttons = GameObject.FindGameObjectsWithTag("Button");
         foreach (GameObject button in buttons)
-                button.GetComponent<Button>().interactable = enabled;
+                button.GetComponent<Button>().interactable = !isLoading;
+        loader.SetActive(isLoading);
     }
 
     // Display Incorrect error message
