@@ -82,7 +82,7 @@ public class SpellController : SpellAPIs
                 wordListProbabilities = new List<int>{0, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4}; // 8% list 0, 8% list 1, 17% list 2, 25% list 3, 42% list 4
                 break;
             default:
-                wordListProbabilities = new List<int>{0}; // 100% chance to select list 0
+                targetWordsList = Resources.Load<TextAsset>($"targetWords_0"); // Only read from word list 0 if playerAgeGroup = 0
                 break;
         }
     }
@@ -120,7 +120,8 @@ public class SpellController : SpellAPIs
 
     // Get a potential random target word (we will need to check if it has been asked already)
     private string GetPotentialRandomTargetWord() {
-        GetWordsList();
+        if (playerAgeGroup != 0) 
+            GetWordsList();
         int numberOfWords = 94;
         switch (selectedWordList) {
             case 1:
