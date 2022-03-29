@@ -45,7 +45,7 @@ public class SpellController : SpellAPIs
 
     // Method is called when enter button pressed
     public void CheckSpelling() {
-        StartCoroutine(RecordAttempt(typedWord.text.ToUpper())); // Record attempt in DB
+        StartCoroutine(RecordAttempt(typedWord.text.ToLower())); // Record attempt in DB
         StartCoroutine(CheckSpellingAfterPhoneticDistance());
     }
 
@@ -144,7 +144,7 @@ public class SpellController : SpellAPIs
         using (StreamReader sr = new StreamReader(new MemoryStream(targetWordsList.bytes))) {
             for (int i = 1; i < randomLineNumber; i++)
                 sr.ReadLine();
-            potentialTargetWord = sr.ReadLine().Trim().ToUpper(); // Set targetWord to the randomly selected word
+            potentialTargetWord = sr.ReadLine().Trim().ToLower(); // Set targetWord to the randomly selected word
         }
         return potentialTargetWord;
     }
@@ -171,7 +171,7 @@ public class SpellController : SpellAPIs
             yield return new WaitForSeconds(0.1f);
         }
         ChangeLoadingState(false);
-        if (phoneticDistance == 0 || targetWord.Equals(typedWord.text.ToUpper())) {
+        if (phoneticDistance == 0 || targetWord.Equals(typedWord.text.ToLower())) {
             AcceptSpellingAttempt();
         }
         else {
@@ -195,12 +195,12 @@ public class SpellController : SpellAPIs
     // Increment score, display Correct message, clear typed word, reset repeat btn
     private void AcceptSpellingAttempt() {
         // If true then spelling correctly, if false then phonetic distance is 0 but spelled wrong
-        bool correctSpelling = targetWord.Equals(typedWord.text.ToUpper());
+        bool correctSpelling = targetWord.Equals(typedWord.text.ToLower());
 
         score = correctSpelling ? score+5 : score+2;
         PlayerPrefs.SetInt("bonusScore", score); // Store the Bonus Score
         messageText.color = correctSpelling ? Color.green : new Color(1.0f, 0.64f, 0.0f);
-        messageText.text = correctSpelling ? "Correct, Well Done! Keep Going" : "Good Attempt at Sounding It Out! Correct answer was " + targetWord;
+        messageText.text = correctSpelling ? "Correct, Well Done! Keep Going" : "Good Attempt at Sounding It Out! Correct answer was " + targetWord.ToUpper();
         typedWord.text = "";
         repeatButton.interactable = true;
         GetRandomTargetWord();
