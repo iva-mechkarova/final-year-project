@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InitializeSpell : MonoBehaviour
 {
-    public GameObject readyPanel, spellPanel;
+    public GameObject readyPanel, spellPanel, gameScoreContainer, totalScoreContainer;
+    public Text bonusStarsText;
 
     // Start is called before the first frame update
     void Start() {
+        // If main game has been played, else went directly to Spell Mode
         if (PlayerPrefs.HasKey("mainScore") && PlayerPrefs.GetInt("mainScore") != 0) {
             Debug.Log("Score: " + PlayerPrefs.GetInt("mainScore").ToString());
             readyPanel.SetActive(false);
@@ -16,6 +19,9 @@ public class InitializeSpell : MonoBehaviour
         else {
             readyPanel.SetActive(true);
             spellPanel.SetActive(false);
+            bonusStarsText.text = "Stars:";
+            gameScoreContainer.SetActive(false);
+            totalScoreContainer.SetActive(false);
         }
     }
 

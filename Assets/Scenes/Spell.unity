@@ -2082,7 +2082,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &411359224
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2405,6 +2405,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   readyPanel: {fileID: 611597820}
   spellPanel: {fileID: 411359223}
+  gameScoreContainer: {fileID: 1477390884}
+  totalScoreContainer: {fileID: 835790385}
+  bonusStarsText: {fileID: 1378949032}
 --- !u!1 &460148264
 GameObject:
   m_ObjectHideFlags: 0
@@ -2908,7 +2911,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &611597821
 RectTransform:
   m_ObjectHideFlags: 0
