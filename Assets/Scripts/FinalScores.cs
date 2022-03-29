@@ -14,6 +14,11 @@ public class FinalScores : MonoBehaviour
         int totalScore = mainScore + bonusScore;
         SaveTotalScore(totalScore);
 
+        // Reset scores
+        PlayerPrefs.SetInt("mainScore", 0);
+        PlayerPrefs.SetInt("bonusScore", 0);
+
+        // Update texts to show scores
         mainScoreText.text = mainScore.ToString();
         bonusScoreText.text = bonusScore.ToString();
         totalScoreText.text = totalScore.ToString();
