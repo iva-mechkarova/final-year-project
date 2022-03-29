@@ -3,7 +3,6 @@ against
 answer
 awhile
 between
-board
 bottom
 breakfast
 broken
@@ -72,14 +71,12 @@ scare
 second
 since
 slowly
-stories
 student
 sudden
 suit
 sure
 swimming
 though
-threw
 tired
 together
 tomorrow
@@ -92,7 +89,6 @@ until
 village
 visit
 wear
-whole
 whose
 women
 writing

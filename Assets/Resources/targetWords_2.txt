@@ -5,7 +5,7 @@ afternoon
 again
 age
 air
-airplane
+aeroplane
 almost
 alone
 along
@@ -87,7 +87,6 @@ felt
 few
 fight
 fishing
-flower
 flying
 follow
 forest
@@ -200,7 +199,6 @@ says
 sending
 sent
 seventh
-sew
 shall
 short
 shot
@@ -248,7 +246,6 @@ teacher
 team
 teeth
 tenth
-their
 these
 thinking
 third
@@ -283,13 +280,11 @@ window
 winter
 without
 woman
-won
 wool
 word
 working
 world
 would
-write
 wrong
 yard
 year

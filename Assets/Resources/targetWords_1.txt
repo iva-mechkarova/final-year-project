@@ -5,7 +5,6 @@ ago
 an
 any
 apple
-are
 as
 ask
 ate
@@ -32,8 +31,6 @@ bring
 brother
 brown
 bus
-buy
-by
 cake
 call
 candy
@@ -51,9 +48,7 @@ cry
 cup
 cut
 daddy
-dear
 deep
-deer
 doing
 doll
 door
@@ -89,7 +84,6 @@ floor
 fly
 food
 foot
-four
 fox
 from
 full
@@ -114,9 +108,7 @@ happy
 hard
 has
 have
-hear
 help
-here
 hill
 hit
 hold
@@ -156,7 +148,6 @@ mad
 made
 make
 many
-meat
 men
 met
 mile
@@ -185,9 +176,7 @@ nut
 off
 only
 open
-or
 other
-our
 outside
 over
 page
@@ -215,7 +204,6 @@ sang
 saw
 say
 school
-sea
 seat
 seem
 seen
@@ -251,7 +239,6 @@ thank
 that
 them
 then
-there
 they
 thing
 think
@@ -259,7 +246,6 @@ three
 time
 today
 told
-too
 took
 train
 tree

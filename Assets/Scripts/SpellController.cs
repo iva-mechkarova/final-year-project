@@ -122,19 +122,19 @@ public class SpellController : SpellAPIs
     private string GetPotentialRandomTargetWord() {
         if (playerAgeGroup != 0) 
             GetWordsList();
-        int numberOfWords = 94;
+        int numberOfWords = 88;
         switch (selectedWordList) {
             case 1:
-                numberOfWords = 295;
+                numberOfWords = 281;
                 break;
             case 2:
-                numberOfWords = 296;
+                numberOfWords = 291;
                 break;
             case 3:
-                numberOfWords = 102;
+                numberOfWords = 98;
                 break;
             case 4:
-                numberOfWords = 37;
+                numberOfWords = 34;
                 break;
             default:
                 break;

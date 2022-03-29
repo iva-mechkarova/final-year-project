@@ -1,4 +1,3 @@
-a
 all
 am
 and
@@ -33,12 +32,10 @@ had
 hat
 he
 hen
-here
 him
 his
 home
 hot
-I
 if
 in
 into
@@ -51,7 +48,6 @@ look
 man
 may
 me
-mom
 my
 no
 not
@@ -81,10 +77,8 @@ sun
 ten
 the
 this
-to
 top
 toy
-two
 up
 us
 was
