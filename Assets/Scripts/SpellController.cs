@@ -181,8 +181,12 @@ public class SpellController : SpellAPIs
 
     private void ChangeLoadingState(bool isLoading) {
         GameObject[] buttons = GameObject.FindGameObjectsWithTag("Button");
-        foreach (GameObject button in buttons)
-                button.GetComponent<Button>().interactable = !isLoading;
+        foreach (GameObject button in buttons) {
+            // If the button is already disabled for other reasons then skip it
+            if ((button.GetComponent<Button>().Equals(skipButton) && skipCount == 2) || (button.GetComponent<Button>().Equals(repeatButton) && repeatCount == 3))
+                continue;
+            button.GetComponent<Button>().interactable = !isLoading;
+        }       
         loader.SetActive(isLoading);
     }
 
