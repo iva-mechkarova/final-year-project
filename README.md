@@ -19,7 +19,7 @@ An intuitive and engaging game is an ideal method for gathering data from a larg
 
 # Download Application
 
-1. Open https://drive.google.com/file/d/13yu8nh66CV3UaVBPGcDQfM-W-hgjJPyo/view?usp=sharing on an android device.
+1. Open https://drive.google.com/file/d/1ibz7Er8RmbfFH__ed7VJScQCJCnHgADW/view?usp=sharing on an android device.
 2. Click "download" and then select "Package Installer".
 3. Allow downloads from Google Drive.
 4. Click "Install" when prompted to install the Sound It Out application.
